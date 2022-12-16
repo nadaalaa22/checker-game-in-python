@@ -2,7 +2,7 @@ from copy import deepcopy
 import pygame
 
 WHITE = (255,255,255)
-BLUE = (0, 0, 255)
+BLUE = (255,222,173)  
 
 #start alpha beta depth first algo method
 def alphabeta(board, depth, alpha, beta, max_player, game):
@@ -22,7 +22,7 @@ def alphabeta(board, depth, alpha, beta, max_player, game):
             maxEval = max(maxEval, evaluation)
             alpha = max(alpha, evaluation)
             if beta <= alpha:
-                break
+                 break
             if maxEval == evaluation:
                 best_move = move
         return maxEval, best_move
@@ -36,7 +36,7 @@ def alphabeta(board, depth, alpha, beta, max_player, game):
             #To check if the new state evaluation is better than minEval that we have now
             minEval = min(minEval, evaluation)
             beta = min(beta, evaluation)
-            if beta <= alpha:
+            if beta >= alpha:
                 break
             if minEval == evaluation:
                 best_move = move

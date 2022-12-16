@@ -103,7 +103,7 @@ class Board:
                 else:
                     self.blue_left -= 1
     #End remove method to remove the piece that crashed
-
+   
     #Start winner method (need Edit)
     def winner(self):
         if self.white_left <= 0:
