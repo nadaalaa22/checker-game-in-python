@@ -44,12 +44,12 @@ def main():
             game.ai_move(new_board)
 
         # End To make the AI play
-        if game is not None:
-            if game.winner() is not None:
-                if game.winner() == ORANGE:
-                    print("The computer wins the game")
-                else:
-                    print("You wins the game")
+
+        if game.winner() is not None:
+            if game.winner() == ORANGE:
+                print("The computer wins the game")
+            else:
+                print("You wins the game")
 
             # run = False  # To quit the game if someone win
 

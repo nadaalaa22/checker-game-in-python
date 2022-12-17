@@ -6,6 +6,7 @@ from checker.constants import *
 class Game:
     previous_row = 0
     previous_column = 0
+    no_moves_for_ai = no_moves_for_person = False
 
     def __init__(self, win):
         self._init()
@@ -24,6 +25,7 @@ class Game:
     def winner(self):
         if self.board is not None:
             return self.board.winner()
+
 
     # End winner method
 
@@ -112,6 +114,10 @@ class Game:
 
     # Start ai_move method
     def ai_move(self, board):
-        self.board = board
-        self.change_turn()
+        if board is not None:
+            self.board = board
+            self.change_turn()
+        # if there is no board this means there is no valid move so he will lose
+        else:
+            Game.no_moves_for_ai = True
     # End ai_move method

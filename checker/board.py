@@ -7,7 +7,7 @@ class Board:
     def __init__(self):
         self.board = []
         # The number of pieces still on the board
-        self.blue_left = self.white_left = 12
+        self.orange_left = self.white_left = 12
         self.blue_kings = self.white_kings = 0
         self.create_pieces()
 
@@ -27,7 +27,7 @@ class Board:
         # Function (1)
         # return self.blue_left - self.white_left
         # Function (2)
-        return (self.blue_left - self.white_left) + (self.blue_kings * 0.5 - self.white_kings * 0.5)
+        return (self.orange_left - self.white_left) + (self.blue_kings * 0.5 - self.white_kings * 0.5)
 
     # End evaluate method that gives the information to Ai to help make decisions (Huristic Function)
 
@@ -110,7 +110,7 @@ class Board:
                 if piece.color == WHITE:
                     self.white_left -= 1
                 else:
-                    self.blue_left -= 1
+                    self.orange_left -= 1
 
     # End remove method to remove the piece that crashed
 
@@ -118,7 +118,7 @@ class Board:
     def winner(self):
         if self.white_left <= 0:
             return ORANGE
-        elif self.blue_left <= 0:
+        elif self.orange_left <= 0:
             return WHITE
         return None
 
