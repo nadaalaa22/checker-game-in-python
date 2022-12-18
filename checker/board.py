@@ -23,11 +23,12 @@ class Board:
     # End creation of squares
 
     # Start evaluate method that gives the information to Ai to help make decisions (Huristic Function)
+   
     def evaluate(self):
         # Function (1)
         # return self.blue_left - self.white_left
         # Function (2)
-        return (self.orange_left - self.white_left) + (self.blue_kings * 0.5 - self.white_kings * 0.5)
+        return (self.orange_left - self.white_left) + (self.blue_kings * 1 - self.white_kings * 1)
 
     # End evaluate method that gives the information to Ai to help make decisions (Huristic Function)
 
@@ -116,9 +117,25 @@ class Board:
 
     # Start winner method (need Edit)
     def winner(self):
+        valid_moves1 ={}
+        for piece in self.get_all_pieces(ORANGE):
+             
+             x = self.get_valid_moves(piece)
+             valid_moves1.update(x)
+
+        if len(valid_moves1) == 0:
+            return WHITE
+        valid_moves2 ={}
+
+        for piece in self.get_all_pieces(WHITE):
+              
+              x = self.get_valid_moves(piece)
+              valid_moves2.update(x)   
+        if len(valid_moves2) == 0:
+            return ORANGE      
         if self.white_left <= 0:
             return ORANGE
-        elif self.orange_left <= 0:
+        elif self.orange_left <= 0 :
             return WHITE
         return None
 

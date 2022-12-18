@@ -48,8 +48,10 @@ def main():
         if game.winner() is not None:
             if game.winner() == ORANGE:
                 print("The computer wins the game")
+                run = False
             else:
                 print("You wins the game")
+                run = False
 
             # run = False  # To quit the game if someone win
 
