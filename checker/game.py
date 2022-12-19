@@ -1,12 +1,13 @@
 import pygame
 from checker.board import Board
 from checker.constants import *
+from alphabeta.algorithm import get_all_user_moves
 
 
 class Game:
     previous_row = 0
     previous_column = 0
-    no_moves_for_ai = no_moves_for_person = False
+    no_moves_for_ai = False
 
     def __init__(self, win):
         self._init()
@@ -19,13 +20,12 @@ class Game:
         self.turn = WHITE
         self.valid_moves = {}
 
-    # End _init private method that initialize all properties for the game to start
+    # End it private method that initialize all properties for the game to start
 
     # Start winner method
-    def winner(self):
+    def winner(self, turn):
         if self.board is not None:
-            return self.board.winner()
-
+            return self.board.winner(turn)
 
     # End winner method
 
@@ -44,6 +44,32 @@ class Game:
     # End reset method that reset the game
 
     # Start select method to try to move the selected piece
+    # def select(self, row, col):
+    #     # if we already select a piece and the click is to move it
+    #     if self.selected:
+    #         result = self._move(row, col)
+    #         # if the position that we try to move to is invalid
+    #         if not result:
+    #             self.selected = None
+    #             # that means I don't move but select another piece or
+    #             # go to invalid square
+    #             self.select(row, col)  # recursively calling the select method
+    #     # select a piece if not selected
+    #     piece = self.board.get_piece(row, col)
+    #     if piece != 0 and piece.color == self.turn:
+    #         self.selected = piece
+    #         self.valid_moves = self.board.get_valid_moves(piece)
+    #         return True  # if the selected piece is valid
+    #     # that will run if I already select the piece and tried to move it to invalid,
+    #     # so I will let the same piece selected as we don't move
+    #     piece = self.board.get_piece(Game.previous_row, Game.previous_column)
+    #     if piece != 0 and piece.color == self.turn:
+    #         self.selected = piece
+    #         self.valid_moves = self.board.get_valid_moves(piece)
+    #         return False
+    #     return False  # if the selected piece is invalid or if I move the piece
+    #
+    # # Start select method to try to move the selected piece
     def select(self, row, col):
         # if we already select a piece and the click is to move it
         if self.selected:
@@ -57,15 +83,23 @@ class Game:
         # select a piece if not selected
         piece = self.board.get_piece(row, col)
         if piece != 0 and piece.color == self.turn:
-            self.selected = piece
-            self.valid_moves = self.board.get_valid_moves(piece)
-            return True  # if the selected piece is valid
+            for piece_move in self.board.get_valid_moves(piece):  # all moves for one piece
+                if piece_move in get_all_user_moves(self.board, WHITE):
+                    self.selected = piece
+                    self.valid_moves = self.board.get_valid_moves(piece)
+                    return True  # if the selected piece is valid
+
         # that will run if I already select the piece and tried to move it to invalid,
         # so I will let the same piece selected as we don't move
         piece = self.board.get_piece(Game.previous_row, Game.previous_column)
         if piece != 0 and piece.color == self.turn:
-            self.selected = piece
-            self.valid_moves = self.board.get_valid_moves(piece)
+            for piece_move in self.board.get_valid_moves(piece):
+                if piece_move in get_all_user_moves(self.board, WHITE):
+                    self.selected = piece
+                    self.valid_moves = self.board.get_valid_moves(piece)
+                else:
+                    self.valid_moves = {}
+
             return False
         return False  # if the selected piece is invalid or if I move the piece
 
@@ -103,6 +137,7 @@ class Game:
             self.turn = ORANGE
         else:
             self.turn = WHITE
+        print(self.turn)
 
     # End change_turn method
 
@@ -114,10 +149,13 @@ class Game:
 
     # Start ai_move method
     def ai_move(self, board):
-        if board is not None:
+        # if board is not None:
+        # print('the board before the AI plays')
+        if self.board == board:
+            Game.no_moves_for_ai = True
+        else:
             self.board = board
             self.change_turn()
-        # if there is no board this means there is no valid move so he will lose
-        else:
-            Game.no_moves_for_ai = True
+        print(board)
+
     # End ai_move method
