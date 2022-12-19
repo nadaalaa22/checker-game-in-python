@@ -137,7 +137,6 @@ class Game:
             self.turn = ORANGE
         else:
             self.turn = WHITE
-        print(self.turn)
 
     # End change_turn method
 

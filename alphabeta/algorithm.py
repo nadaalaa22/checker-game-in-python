@@ -77,7 +77,6 @@ def get_all_moves(board, color):
             # try to execute the move that AI select now and save the new board state that it will be returned
             new_board = simulate_move(temp_piece, move, temp_board, skip)
             moves.append(new_board)  # save the new board
-    print(moves)
     return moves
 
 

@@ -53,11 +53,12 @@ class Board:
 
         # if the piece reach the last square in the board it will be king by this coming code
         if row == ROWS - 1 or row == 0:
-            piece.make_king()
-            if piece.color == WHITE:
-                self.white_kings += 1
-            else:
-                self.blue_kings += 1
+            if not piece.king:  # if the piece is not a king
+                piece.make_king()
+                if piece.color == WHITE:
+                    self.white_kings += 1
+                else:
+                    self.blue_kings += 1
 
     # End creation of move method that makes the moving of the piece to the position that we select
 
@@ -110,8 +111,12 @@ class Board:
             self.board[piece.row][piece.col] = 0
             if piece != 0:  # check if the piece is already deleted or not
                 if piece.color == WHITE:
+                    if piece.king:
+                        self.white_kings -= 1
                     self.white_left -= 1
                 else:
+                    if piece.king:
+                        self.blue_kings -= 1
                     self.orange_left -= 1
 
     # End remove method to remove the piece that crashed
