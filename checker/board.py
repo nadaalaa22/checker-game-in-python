@@ -1,4 +1,5 @@
 import pygame
+
 from .constants import *
 from .piece import Piece
 
@@ -18,17 +19,17 @@ class Board:
             # To start with different color in every row
             for col in range(row % 2, COLS, 2):
                 pygame.draw.rect(win, ORANGE, (
-                row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))  # StartX, StartY, EndX, EndY
+                    row * SQUARE_SIZE, col * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))  # StartX, StartY, EndX, EndY
 
     # End creation of squares
 
     # Start evaluate method that gives the information to Ai to help make decisions (Huristic Function)
-   
+
     def evaluate(self):
         # Function (1)
         # return self.blue_left - self.white_left
         # Function (2)
-        return (self.orange_left - self.white_left) + (self.blue_kings * 1 - self.white_kings * 1)
+        return (self.orange_left - self.white_left) + (self.blue_kings * 0.5 - self.white_kings * 0.5)
 
     # End evaluate method that gives the information to Ai to help make decisions (Huristic Function)
 
@@ -116,26 +117,42 @@ class Board:
     # End remove method to remove the piece that crashed
 
     # Start winner method (need Edit)
-    def winner(self):
-        valid_moves1 ={}
-        for piece in self.get_all_pieces(ORANGE):
-             
-             x = self.get_valid_moves(piece)
-             valid_moves1.update(x)
+    def winner(self, turn):
+        # # WHITE wins the game because ORANGE can't move
+        if turn == ORANGE:
+            for piece in self.get_all_pieces(ORANGE):
+                if self.get_valid_moves(piece):
+                    break
+            else:
+                return WHITE
+        # ORANGE wins the game because WHITE can't move
+        else:
+            for piece in self.get_all_pieces(WHITE):
+                if self.get_valid_moves(piece):
+                    break
+            else:
+                return ORANGE
+        # if turn == ORANGE:
+        #     valid_moves1 = {}
+        #     for piece in self.get_all_pieces(ORANGE):
+        #         x = self.get_valid_moves(piece)
+        #         valid_moves1.update(x)
+        #
+        #     if len(valid_moves1) == 0:
+        #         return WHITE
+        #
+        # if turn == WHITE:
+        #     valid_moves2 = {}
+        #
+        #     for piece in self.get_all_pieces(WHITE):
+        #         x = self.get_valid_moves(piece)
+        #         valid_moves2.update(x)
+        #     if len(valid_moves2) == 0:
+        #         return ORANGE
 
-        if len(valid_moves1) == 0:
-            return WHITE
-        valid_moves2 ={}
-
-        for piece in self.get_all_pieces(WHITE):
-              
-              x = self.get_valid_moves(piece)
-              valid_moves2.update(x)   
-        if len(valid_moves2) == 0:
-            return ORANGE      
         if self.white_left <= 0:
             return ORANGE
-        elif self.orange_left <= 0 :
+        elif self.orange_left <= 0:
             return WHITE
         return None
 
@@ -159,6 +176,9 @@ class Board:
             # To update the moves dic with the valid moves for Blue pieces
             moves.update(self._traverse_left(row + 1, min(row + 3, ROWS), 1, piece.color, left))
             moves.update(self._traverse_right(row + 1, min(row + 3, ROWS), 1, piece.color, right))
+
+        # this code will make sure that he will not make
+        # any moves if he can eat the piece
 
         return moves
 
@@ -235,4 +255,22 @@ class Board:
                 last = [current]
             right += 1
         return moves
+
     # End _traverse_left method to determine the valid moves for the piece from right side
+
+    def __str__(self):
+        for row in vars(self)['board']:
+            row_list = []
+            for cell in row:
+                if cell == 0:
+                    row_list.append('0    ')
+                elif cell.color == ORANGE:
+                    row_list.append('O    ')
+                elif cell.color == WHITE:
+                    row_list.append('W    ')
+            print(row_list)
+        print(f"Orange left {vars(self)['orange_left']}")
+        print(f"White left {vars(self)['white_left']}")
+        print(f"Orange kings {vars(self)['blue_kings']}")
+        print(f"White kings {vars(self)['white_kings']}")
+        return ' =============================================='

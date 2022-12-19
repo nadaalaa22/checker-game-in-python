@@ -45,15 +45,14 @@ def main():
 
         # End To make the AI play
 
-        if game.winner() is not None:
-            if game.winner() == ORANGE:
+
+        if game.winner(game.turn) is not None:
+            if game.winner(game.turn) == ORANGE:
                 print("The computer wins the game")
-                run = False
             else:
                 print("You wins the game")
-                run = False
 
-            # run = False  # To quit the game if someone win
+            run = False  # To quit the game if someone win
 
         # Start check if any event happen in the current time
         for event in pygame.event.get():
