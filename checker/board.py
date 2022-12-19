@@ -9,7 +9,7 @@ class Board:
         self.board = []
         # The number of pieces still on the board
         self.orange_left = self.white_left = 12
-        self.blue_kings = self.white_kings = 0
+        self.orange_kings = self.white_kings = 0
         self.create_pieces()
 
     # Start creation of squares but not pieces
@@ -29,7 +29,7 @@ class Board:
         # Function (1)
         # return self.blue_left - self.white_left
         # Function (2)
-        return (self.orange_left - self.white_left) + (self.blue_kings * 0.5 - self.white_kings * 0.5)
+        return (self.orange_left - self.white_left) + (self.orange_kings * 0.5 - self.white_kings * 0.5)
 
     # End evaluate method that gives the information to Ai to help make decisions (Huristic Function)
 
@@ -58,7 +58,7 @@ class Board:
                 if piece.color == WHITE:
                     self.white_kings += 1
                 else:
-                    self.blue_kings += 1
+                    self.orange_kings += 1
 
     # End creation of move method that makes the moving of the piece to the position that we select
 
@@ -116,7 +116,7 @@ class Board:
                     self.white_left -= 1
                 else:
                     if piece.king:
-                        self.blue_kings -= 1
+                        self.orange_kings -= 1
                     self.orange_left -= 1
 
     # End remove method to remove the piece that crashed
@@ -137,23 +137,6 @@ class Board:
                     break
             else:
                 return ORANGE
-        # if turn == ORANGE:
-        #     valid_moves1 = {}
-        #     for piece in self.get_all_pieces(ORANGE):
-        #         x = self.get_valid_moves(piece)
-        #         valid_moves1.update(x)
-        #
-        #     if len(valid_moves1) == 0:
-        #         return WHITE
-        #
-        # if turn == WHITE:
-        #     valid_moves2 = {}
-        #
-        #     for piece in self.get_all_pieces(WHITE):
-        #         x = self.get_valid_moves(piece)
-        #         valid_moves2.update(x)
-        #     if len(valid_moves2) == 0:
-        #         return ORANGE
 
         if self.white_left <= 0:
             return ORANGE
@@ -184,7 +167,6 @@ class Board:
 
         # this code will make sure that he will not make
         # any moves if he can eat the piece
-
         return moves
 
     # End get_valid_moves method to give us all valid moves for the specific piece
@@ -276,6 +258,6 @@ class Board:
             print(row_list)
         print(f"Orange left {vars(self)['orange_left']}")
         print(f"White left {vars(self)['white_left']}")
-        print(f"Orange kings {vars(self)['blue_kings']}")
+        print(f"Orange kings {vars(self)['orange_kings']}")
         print(f"White kings {vars(self)['white_kings']}")
         return ' =============================================='

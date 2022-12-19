@@ -39,12 +39,11 @@ def main():
         # Start To make the AI play
         if game.turn == ORANGE:
             # The higher the number of depth, the higher the complexity of the AI
-            # value, new_board = minimax(game.get_board(), 4, BLUE, game)
-            value, new_board = alphabeta(game.get_board(), 4, float('-inf'), float('inf'), ORANGE, game)
+            value, new_board = alphabeta(game.get_board(), 4, ORANGE, game)
+            # value, new_board = alphabeta(game.get_board(), 4, float('-inf'), float('inf'), ORANGE, game)
             game.ai_move(new_board)
 
         # End To make the AI play
-
 
         if game.winner(game.turn) is not None:
             if game.winner(game.turn) == ORANGE:
