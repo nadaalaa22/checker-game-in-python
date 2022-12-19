@@ -28,7 +28,7 @@ class Board:
         # Function (1)
         # return self.blue_left - self.white_left
         # Function (2)
-        return (self.orange_left - self.white_left) + (self.blue_kings * 1 - self.white_kings * 1)
+        return (self.orange_left - self.white_left) + (self.blue_kings * 0.5 - self.white_kings * 0.5)
 
     # End evaluate method that gives the information to Ai to help make decisions (Huristic Function)
 
